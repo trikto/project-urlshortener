@@ -31,15 +31,16 @@ app.use(bodyParser.json());
 
 app.post("/api/shorturl", (req, res) => {
   var url = req.body.url;
+  // console.log(url);
 
   if (url.includes("?")) {
-    url = url.split("?")[0];
+    url = url.split("/?")[0];
   }
-
+  // console.log(url);
   if (url.startsWith("https://") || url.startsWith("http://")) {
     // Check if this is a valid URL
-    console.log(dnsUrl);
     dnsUrl = url.split("://")[1];
+    // console.log(dnsUrl);
     dns.lookup(dnsUrl, (err, address, family) => {
       if (err) res.json({ error: "Invalid URL" });
       else {
