@@ -72,7 +72,7 @@ app.post("/api/shorturl", (req, res) => {
                   var short_url = max_num + 1;
 
                   const Url = new Urls({
-                    original_url: url,
+                    original_url: input_url,
                     short_url: short_url,
                   });
 
@@ -80,8 +80,8 @@ app.post("/api/shorturl", (req, res) => {
                     .then((data) => {
                       // console.log(data);
                       res.json({
-                        original_url: input_url,
-                        short_url: short_url,
+                        original_url: data.original_url,
+                        short_url: data.short_url,
                       });
                     })
                     .catch((err) => console.error(err));
