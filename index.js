@@ -38,6 +38,7 @@ app.post("/api/shorturl", (req, res) => {
 
   if (url.startsWith("https://") || url.startsWith("http://")) {
     // Check if this is a valid URL
+    console.log(dnsUrl);
     dnsUrl = url.split("://")[1];
     dns.lookup(dnsUrl, (err, address, family) => {
       if (err) res.json({ error: "Invalid URL" });
