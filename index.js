@@ -32,6 +32,9 @@ app.use(bodyParser.json());
 app.post("/api/shorturl", (req, res) => {
   var url = req.body.url;
   // console.log(url);
+  url = new URL(url);
+  url.search = "";
+  url = url.href;
 
   if (url.startsWith("https://")) {
     // Check if this is a valid URL
