@@ -7,6 +7,8 @@ const dns = require("dns");
 
 const mongoose = require("mongoose");
 
+app.use(cors());
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -22,8 +24,6 @@ const Urls = mongoose.model("Urls", urlSchema);
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
-app.use(cors());
-
 app.use("/public", express.static(`${process.cwd()}/public`));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,12 +31,8 @@ app.use(bodyParser.json());
 
 app.post("/api/shorturl", (req, res) => {
   var url = req.body.url;
-  // console.log(url);
-  url = new URL(url);
-  url.search = "";
-  url = url.href;
 
-  if (url.startsWith("https://")) {
+  if (url.startsWith("https://") || url.startsWith("http://")) {
     // Check if this is a valid URL
     dnsUrl = url.split("://")[1];
     dns.lookup(dnsUrl, (err, address, family) => {
