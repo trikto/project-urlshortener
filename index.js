@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 
 app.post("/api/shorturl", (req, res) => {
   var url = req.body.url;
+  var input_url = url;
   // console.log(url);
 
   if (url.includes("?")) {
@@ -44,7 +45,7 @@ app.post("/api/shorturl", (req, res) => {
     dns.lookup(dnsUrl, (err, address, family) => {
       if (err) res.json({ error: "Invalid URL" });
       else {
-        Urls.findOne({ original_url: url })
+        Urls.findOne({ original_url: input_url })
           .then((data) => {
             // Check if the URL exists
             if (data) {
@@ -78,7 +79,10 @@ app.post("/api/shorturl", (req, res) => {
                   Url.save()
                     .then((data) => {
                       // console.log(data);
-                      res.json({ original_url: url, short_url: short_url });
+                      res.json({
+                        original_url: input_url,
+                        short_url: short_url,
+                      });
                     })
                     .catch((err) => console.error(err));
                 })
