@@ -32,6 +32,10 @@ app.use(bodyParser.json());
 app.post("/api/shorturl", (req, res) => {
   var url = req.body.url;
 
+  if (url.includes("?")) {
+    url = url.split("?")[0];
+  }
+
   if (url.startsWith("https://") || url.startsWith("http://")) {
     // Check if this is a valid URL
     dnsUrl = url.split("://")[1];
